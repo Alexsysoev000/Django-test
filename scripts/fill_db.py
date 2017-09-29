@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 
@@ -7,7 +8,7 @@ sys.path.insert(0, os.getcwd())
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings.local'
 django.setup()
 
-from lorry.models import LorryModel, Lorry
+from lorry.models import LorryModel, Lorry  # noqa
 
 
 if __name__ == '__main__':
