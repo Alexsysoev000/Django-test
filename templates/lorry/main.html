@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load staticfiles %}
+
+<head>
+    <style>
+        .selector{
+            float: left;
+            width: 400px;
+            margin: 15px;
+        }
+        .main_table {
+            margin: 30px;
+            width: 80%;
+        }
+    </style>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Neon Admin Panel" />
+	<meta name="author" content="" />
+
+	<link rel="icon" href="{% static 'favicon.ico' %}">
+
+	<title>Lorry Admin</title>
+
+	<link rel="stylesheet" href="{% static 'js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-icons/entypo/css/entypo.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'css/neon-core.css' %}">
+	<link rel="stylesheet" href="{% static 'css/neon-theme.css' %}">
+	<link rel="stylesheet" href="{% static 'css/neon-forms.css' %}">
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skins/white.css' %}">
+
+	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+
+	<!--[if lt IE 9]><script src="{% static 'js/ie8-responsive-file-warning.js' %}"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+    <div style="margin-top: 50px"></div>
+        <div class="selector">
+            <div class="col-sm-5">
+                <select class="btn form-control" id="selected_mode">
+                    <option id="all">Все</option>
+                    {% for model in models %}
+                        {% if model.id == mode %}
+                            <option id="{{ model.id }}" selected>{{ model.name }}</option>
+                        {% else %}
+                            <option id="{{ model.id }}">{{ model.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <a href="javascript:chooseMode()">
+                <button type="button" class="btn btn-red btn-icon btn-md" href="javascript:chooseMode()">
+                    Поиск<i class="entypo-search"></i>
+                </button>
+            </a>{% csrf_token %}
+        </div>
+    <h2> </h2>
+    <div class="main_table">
+        <table class="table table-bordered datatable" id="table">
+            <thead id="myThead">
+                <tr>
+                    <th data-hide="phone">Бортовой номер</th>
+                    <th>Модель</th>
+                    <th data-hide="phone">Макс. грузоподьемность</th>
+                    <th data-hide="phone,tablet">Текущий вес</th>
+                    <th>Пререгруз</th>
+                </tr>
+            </thead>
+                {% for model in models %}
+                    {% if model.id == mode or not mode  %}
+                        {% for lorry in model.lorry_set.all %}
+                            <tr>
+                                <td>{{ lorry.pennant_number }}</td>
+                                <td>{{ model.name }}</td>
+                                <td>{{ model.lifting_capacity }}</td>
+                                <td>{{ lorry.current_weight }}</td>
+                                <td>{{ lorry.overweight|floatformat }}%</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+        </table>
+    </div>
+
+<script>
+    function chooseMode() {
+        var elem = document.getElementById("selected_mode");
+        var mode = elem.options[elem.selectedIndex].id;
+        return location.href = '/main?mode='+mode;
+    }
+</script>
+
+</body>
+
+<!-- Bottom scripts (common) -->
+<script src="{% static 'js/gsap/TweenMax.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/joinable.js' %}"></script>
+<script src="{% static 'js/resizeable.js' %}"></script>
+<script src="{% static 'js/neon-api.js' %}"></script>
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/neon-login.js' %}"></script>
+
+
+<!-- JavaScripts initializations and stuff -->
+<script src="{% static 'js/neon-custom.js' %}"></script>
+
+
+<!-- Demo Settings -->
+<script src="{% static 'js/neon-demo.js' %}"></script>
+
+
+</html>
