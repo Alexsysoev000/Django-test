@@ -1,0 +1,13 @@
+[supervisord]
+logfile=/var/www/Lorry-Admin/logs/main.log
+
+[program:django]
+numprocs = 1
+numprocs_start = 1
+process_name = lorry_admin
+
+command=/bin/bash -c "cd /var/www/Lorry-Admin/ && venv/bin/python manage.py runserver"
+
+user=root
+autostart=true
+autorestart=true

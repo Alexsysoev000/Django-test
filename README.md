@@ -34,6 +34,21 @@ python manage.py migrate
 python scripts/fill_db.py
 ```
 
+## supervisor settings
+1) install supervisor
+```
+install supervisor
+```
+2) make a copy scripts/lorry_admin.supervisor.conf.default named /etc/supervisor/lorry_admin.supervisor.conf
+```
+sudo cp scripts/lorry_admin.supervisor.conf.default /etc/supervisor/lorry_admin.supervisor.conf
+```
+3) first start supervisor
+```
+sudo service supervisor start
+sudo supervisorctl
+exit
+```
 
 ## To run Admin ##
 
